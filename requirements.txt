@@ -1,0 +1,8 @@
+django
+django-hashid-field
+django-filter
+djangorestframework
+drf-extra-fields
+django-leaflet
+pillow
+psycopg2

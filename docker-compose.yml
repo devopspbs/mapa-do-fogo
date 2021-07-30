@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    #image: postgis/postgis:latest # build on x86_64
+    image: sayitsocial/postgis:raspi # build on ARM64
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - mapa-do-fogo:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: ["./wait-for-postgres.sh", "db", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    # command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  mapa-do-fogo:
